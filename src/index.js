@@ -11,9 +11,9 @@ import { AppContainer } from 'react-hot-loader';
 import reducers from "./reducers";
 import thunk from "./middleware/createThunkMiddleware";
 
-import { makeMainRoutes } from './routes';
+import MakeMainRoutes  from './routes';
 
-const routes = makeMainRoutes();
+//const routes = makeMainRoutes();
 
 // bring in style sheets
 require('../style/base.less');
@@ -38,7 +38,7 @@ function renderApp(){
   ReactDOM.render(
     <AppContainer>
       <Provider store={store}>
-        {routes}
+        <MakeMainRoutes/>
       </Provider>
     </AppContainer>,
     document.getElementById('root')

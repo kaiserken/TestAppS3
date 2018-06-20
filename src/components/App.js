@@ -13,7 +13,6 @@ import axios from "axios";
 import Main from './Main';
 import MenuOne from './MenuOne';
 
-const auth = new Auth();
 
 
 class App extends Component {
@@ -113,7 +112,7 @@ class App extends Component {
             </Dropdown>
             {this.logInOutMenu()}
           </Menu>
-        
+
       </Responsive>
     </Segment.Group>
     );

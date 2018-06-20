@@ -1,9 +1,9 @@
 import React from 'react';
-import { Route, Router, Redirect, Switch } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Redirect, Switch, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import App from './components/App';
 import Main from './components/Main';
 import MenuOne from './components/MenuOne';
-
 
 
 
@@ -27,15 +27,30 @@ const PrivateRoute = function({ component: Component, ...rest }){
     />;
 };
 
-export const makeMainRoutes = () => {
-  return (
-      <Router>
-        <Switch>
-          <Route path="/" component={App} />
-          <Route path="/home" component={Main}/>
+class MakeMainRoutes extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-          <PrivateRoute exact path="/menuone" component={MenuOne} />
-        </Switch>
-      </Router>
-  );
-};
+  render(){
+    return (
+        <Router>
+          <div>
+            <Route path="/" component={App} />
+            <Route path="/home" component={Main}/>
+            <PrivateRoute path="/menuone" component={MenuOne}/>
+          </div>
+        </Router>
+    );
+  }
+}
+
+function mapStateToProps(state){
+  return {
+
+  };
+}
+
+
+
+export default (MakeMainRoutes);
