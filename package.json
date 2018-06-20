@@ -1,0 +1,50 @@
+{
+  "name": "testapps3",
+  "version": "1.0.0",
+  "description": "React - Redux - React Router - template ==================================================",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --config webpackDev.config.js --content-base build/",
+    "build": "rm -r ./build && mkdir -p build && webpack --config webpackDev.config.js --bail",
+    "build-travis": "mkdir -p build && webpack --config webpackProd.config.js --bail",
+    "clean": "rm -r ./build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaiserken/TestAppS3.git"
+  },
+  "author": "ken kaiser",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kaiserken/TestAppS3/issues"
+  },
+  "homepage": "https://github.com/kaiserken/TestAppS3#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "moment": "^2.22.1",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
+    "semantic-ui-react": "^0.79.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "html-webpack-plugin": "^3.1.0",
+    "json-loader": "^0.5.7",
+    "less": "^3.0.1",
+    "less-loader": "^4.1.0",
+    "react-hot-loader": "^4.0.1",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13",
+    "webpack-dev-server": "^3.1.1"
+  }
+}
