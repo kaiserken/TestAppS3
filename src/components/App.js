@@ -1,32 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-
 import {bindActionCreators} from 'redux';
 import { NavLink, withRouter } from 'react-router-dom';
-
 import { Menu, Responsive, Header, Icon, Dropdown, Container, Segment } from 'semantic-ui-react';
 
-import axios from "axios";
 
-
-import Main from './Main';
-import MenuOne from './MenuOne';
 
 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+  }
 
+  componentDidMount(){
+
+  }
 
   login() {
-
+    this.props.history.push("/login");
   }
 
   logout() {
 
   }
   logInOutMenu(){
-    const isAuthenticated = true;
+    const isAuthenticated = false;
     //some sort of user logged in logic
     if (isAuthenticated){
       return (
@@ -122,7 +121,7 @@ class App extends Component {
 
 function mapStateToProps(state){
   return {
-
+    user: state.user
   };
 }
 

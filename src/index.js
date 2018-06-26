@@ -10,10 +10,23 @@ import axios from "axios";
 import { AppContainer } from 'react-hot-loader';
 import reducers from "./reducers";
 import thunk from "./middleware/createThunkMiddleware";
+import Amplify from 'aws-amplify';
+import {makeMainRoutes}  from './routes';
 
-import MakeMainRoutes  from './routes';
+Amplify.configure({
+    Auth: {
+      region: 'us-east-2',
 
-//const routes = makeMainRoutes();
+      userPoolId: 'us-east-2_G5UTw92eS',
+
+      userPoolWebClientId: 't5l3pivnb992ngp5hem4qsogo',
+
+      //oauth: oauth
+    },
+
+});
+
+const routes = makeMainRoutes();
 
 // bring in style sheets
 require('../style/base.less');
@@ -38,7 +51,7 @@ function renderApp(){
   ReactDOM.render(
     <AppContainer>
       <Provider store={store}>
-        <MakeMainRoutes/>
+        {routes}
       </Provider>
     </AppContainer>,
     document.getElementById('root')

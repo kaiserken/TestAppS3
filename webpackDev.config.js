@@ -10,6 +10,8 @@ const VENDOR = [
   "semantic-ui-react",
   "axios",
   "moment",
+  "aws-amplify",
+  "aws-amplify-react"
 ];
 
 module.exports = {
@@ -72,10 +74,10 @@ module.exports = {
         ],
 
       },
-      {
-        test: /\.json$/,
-        use: ['json-loader']
-      }
+      // {
+      //   test: /\.json$/,
+      //   use: ['json-loader']
+      // }
     ]
   },
   plugins: [

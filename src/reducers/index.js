@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-
-//import action from '../actions/user_actions';
+import user from './user_reducer';
+import action from '../actions/user_actions';
 
 
 const appReducer = combineReducers({
   // put reducers here!
-  // user:   user,
+  user:   user,
 
 });
 
