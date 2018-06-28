@@ -13,18 +13,7 @@ import thunk from "./middleware/createThunkMiddleware";
 import Amplify from 'aws-amplify';
 import {makeMainRoutes}  from './routes';
 
-Amplify.configure({
-    Auth: {
-      region: 'us-east-2',
 
-      userPoolId: 'us-east-2_G5UTw92eS',
-
-      userPoolWebClientId: 't5l3pivnb992ngp5hem4qsogo',
-
-      //oauth: oauth
-    },
-
-});
 
 const routes = makeMainRoutes();
 
