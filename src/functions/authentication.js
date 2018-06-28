@@ -24,7 +24,7 @@ export default {
           resolve(data);
         })
         .catch((err) => {
-          reject(data);
+          reject(err);
         });
     });
     return user;
@@ -37,7 +37,7 @@ export default {
         resolve(user);
       })
       .catch((err) => {
-        reject(user);
+        reject(err);
       });
     });
     return user;

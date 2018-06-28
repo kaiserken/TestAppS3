@@ -48,7 +48,6 @@ export function logUserIn (email, password) {
     return authentication.signIn(email, password)
     .then( result => {
       let session = result.signInUserSession;
-      console.log("session", session);
       dispatch(setIdToken(session.idToken.jwtToken));
       dispatch(setAccessToken(session.accessToken.jwtToken));
       dispatch(setRefreshToken(session.refreshToken.token));
@@ -72,7 +71,6 @@ export function signUserUp (email, password) {
       return result;
     })
     .catch( err => {
-      alert(`${err.message}`);
       throw(err);
     });
   };
@@ -87,7 +85,6 @@ export function confirmSignUp (email, code) {
     })
     .catch( err => {
       console.log('err in Confirm', err);
-      alert(`${err.message} Please double check your confirmation code`);
       throw(err);
     });
   };

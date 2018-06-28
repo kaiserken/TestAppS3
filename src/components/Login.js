@@ -15,6 +15,7 @@ class Login extends React.Component {
       email:   "",
       password:    "",
       redirectToReferrer: false,
+      error: ""
     };
   }
 
@@ -27,12 +28,13 @@ class Login extends React.Component {
     e.preventDefault();
     this.props.logUserIn(this.state.email, this.state.password)
     .then(response => {
+      this.setState({ error: "" });
       this.setState({ redirectToReferrer: true });
     })
-    .catch(error => {
-      console.error(error);
-      if (error){
-        alert(`${error.message}`);
+    .catch((err )=> {
+      console.log(err);
+      if (err){
+        this.setState({error: err.message});
       }
     });
   }
@@ -44,6 +46,15 @@ class Login extends React.Component {
     this.setState(data);
   }
 
+  displayError(){
+    if (this.state.error){
+      return (
+        <Segment floated="left" textAlign='center' inverted color="red" >
+          {this.state.error}
+        </Segment>
+      );
+    }
+  }
 
   render(){
     const { from } = this.props.location.state || { from: { pathname: "/" } };
@@ -81,9 +92,10 @@ class Login extends React.Component {
          <Button color="green" type='submit'>Submit</Button>
 
         </Form>
-        <Segment textAlign='center' inverted color="blue" onClick={this.signup.bind(this)}>
+        <Segment floated="right" textAlign='center' inverted color="blue" onClick={this.signup.bind(this)}>
           Need An Account - Click Here to Sign Up!
         </Segment>
+        {this.displayError()}
       </Container>
     );
   }

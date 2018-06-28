@@ -16,6 +16,7 @@ class Signup extends React.Component {
       password:    "",
       confirmationCode: "",
       needConfirmation: false,
+      error: "",
     };
   }
 
@@ -25,11 +26,14 @@ class Signup extends React.Component {
     .then(response => {
       this.setState({
         needConfirmation: false,
+        error:""
       });
       this.props.history.push("/login");
     })
-    .catch(error => {
-      console.error(error);
+    .catch((err)=> {
+      this.setState({
+        error: err.message
+      });
     });
   }
 
@@ -38,12 +42,19 @@ class Signup extends React.Component {
     e.preventDefault();
     this.props.signUserUp(this.state.email, this.state.password)
     .then(response => {
-      this.setState({needConfirmation: true});
+      this.setState({
+        needConfirmation: true,
+        error: "",
+      });
+
     })
-    .catch(error => {
-      console.error(error);
-      if (error){
-        this.setState({needConfirmation: false});
+    .catch(err => {
+      console.error(err);
+      if (err){
+        this.setState({
+          needConfirmation: false,
+          error: err.message
+        });
       }
     });
   }
@@ -55,6 +66,15 @@ class Signup extends React.Component {
     this.setState(data);
   }
 
+  displayError(){
+    if (this.state.error){
+      return (
+        <Segment floated="left" textAlign='center' inverted color="red" >
+          {this.state.error}
+        </Segment>
+      );
+    }
+  }
 
   render(){
 
@@ -80,6 +100,7 @@ class Signup extends React.Component {
            </Form.Field>
            <Button type='submit'>Submit</Button>
           </Form>
+          {this.displayError()}
         </Container>
       );
     }
@@ -110,8 +131,9 @@ class Signup extends React.Component {
             onChange = {this.changeForm.bind(this)}
            />
          </Form.Field>
-         <Button type='submit'>Submit</Button>
+         <Button color="green" type='submit'>Submit</Button>
         </Form>
+        {this.displayError()}
       </Container>
     );
   }
