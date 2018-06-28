@@ -38,7 +38,6 @@ class Signup extends React.Component {
     e.preventDefault();
     this.props.signUserUp(this.state.email, this.state.password)
     .then(response => {
-      console.log("response", response);
       this.setState({needConfirmation: true});
     })
     .catch(error => {

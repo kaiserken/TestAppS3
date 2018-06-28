@@ -21,11 +21,9 @@ export default {
     let user = new Promise (function(resolve, reject){
       Amplify.Auth.signOut()
         .then((data) => {
-          console.log("signout",data);
           resolve(data);
         })
         .catch((err) => {
-          console.log(err);
           reject(data);
         });
     });
@@ -36,11 +34,9 @@ export default {
     let user = new Promise (function(resolve, reject){
       Amplify.Auth.signIn(username, password)
       .then((user) => {
-        console.log(user);
         resolve(user);
       })
       .catch((err) => {
-        console.log(err);
         reject(user);
       });
     });
@@ -54,7 +50,6 @@ export default {
         resolve(data);
       })
       .catch((err) => {
-        console.log(err);
         reject(err);
       });
     });
@@ -65,11 +60,9 @@ export default {
     let user = new Promise (function(resolve, reject){
       Amplify.Auth.confirmSignUp(username, code, { forceAliasCreation: true})
       .then((data) => {
-        console.log("confirm", data);
         resolve(data);
       })
       .catch((err) => {
-        console.log("error confirm", err);
         reject(err);
       });
     });
@@ -80,11 +73,9 @@ export default {
     let session = new Promise (function(resolve, reject){
       Amplify.Auth.currentSession()
       .then((data) => {
-        console.log("data current session", data);
         resolve(data);
       })
       .catch((err) => {
-        console.log("error current session",err);
         reject(err);
       });
     });

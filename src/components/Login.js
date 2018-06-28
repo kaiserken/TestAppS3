@@ -32,7 +32,7 @@ class Login extends React.Component {
     .catch(error => {
       console.error(error);
       if (error){
-        alert(`Error Code ${error.status}: ${error.data.message}`);
+        alert(`${error.message}`);
       }
     });
   }

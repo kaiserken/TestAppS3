@@ -56,12 +56,11 @@ export function logUserIn (email, password) {
       return result;
     })
     .catch( err => {
-      console.log('err in logUserIn', err);
       dispatch(setIdToken(""));
       dispatch(setAccessToken(""));
       dispatch(setRefreshToken(""));
       dispatch(setUserEmail(""));
-      alert(`${err.message} Please double check your email and password. If the problem persists contact engineering`);
+      throw(err);
     });
   };
 }
