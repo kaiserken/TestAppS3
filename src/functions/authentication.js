@@ -1,4 +1,5 @@
 import Amplify from 'aws-amplify';
+
 Amplify.configure({
     Auth: {
       region: 'us-east-2',
@@ -16,38 +17,39 @@ Amplify.configure({
 
 export default {
 
-  signIn: function(username, password){
-    return Amplify.Auth.signIn(username, password)
-    .then(user => console.log(user))
-    .catch(err => console.log(err));
+  signOut: function(){
+    let user = new Promise (function(resolve, reject){
+      Amplify.Auth.signOut()
+        .then((data) => {
+          console.log("signout",data);
+          resolve(data);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(data);
+        });
+    });
+    return user;
+  },
 
+  signIn: function(username, password){
+    let user = new Promise (function(resolve, reject){
+      Amplify.Auth.signIn(username, password)
+      .then((user) => {
+        console.log(user);
+        resolve(user);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject(user);
+      });
+    });
+    return user;
   },
 
   signUp: function(username, password){
-    return Amplify.Auth.signUp({
-      username,
-      password,
-      
-      validationData: []
-      })
-      .then(data => console.log(data))
-      .catch(err => console.log(err));
-  },
-
-  confirmSignUp: function(username, code){
-
-    return Amplify.Auth.confirmSignUp(username, code, {
-        // Optional. Force user confirmation irrespective of existing alias. By default set to True.
-        forceAliasCreation: true
-    }).then(data => console.log(data))
-    .catch(err => console.log(err));
-
-
-  },
-
-  currentSession: function(){
-    let session = new Promise (function(resolve, reject){
-      Amplify.Auth.currentSession()
+    let user = new Promise (function(resolve, reject){
+      Amplify.Auth.signUp({ username, password, validationData: [] })
       .then((data) => {
         resolve(data);
       })
@@ -56,8 +58,41 @@ export default {
         reject(err);
       });
     });
+    return user;
+  },
+
+  confirmSignUp: function(username, code){
+    let user = new Promise (function(resolve, reject){
+      Amplify.Auth.confirmSignUp(username, code, { forceAliasCreation: true})
+      .then((data) => {
+        console.log("confirm", data);
+        resolve(data);
+      })
+      .catch((err) => {
+        console.log("error confirm", err);
+        reject(err);
+      });
+    });
+    return user;
+  },
+
+  currentSession: function(){
+    let session = new Promise (function(resolve, reject){
+      Amplify.Auth.currentSession()
+      .then((data) => {
+        console.log("data current session", data);
+        resolve(data);
+      })
+      .catch((err) => {
+        console.log("error current session",err);
+        reject(err);
+      });
+    });
+
     return session;
-  }
+
+
+  },
 
 
 };

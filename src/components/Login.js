@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Redirect } from 'react-router-dom';
 import {logUserIn} from '../actions/user_actions';
-import { Container, Button, Checkbox, Form } from 'semantic-ui-react';
+import { Container, Button, Checkbox, Form, Segment, Header, Icon } from 'semantic-ui-react';
 
 
 // Renders Login screen when not logged in
@@ -54,6 +54,10 @@ class Login extends React.Component {
 
     return (
       <Container className="login-container">
+        <Header as='h2' icon textAlign='center'>
+          <Icon color="blue" name='user' circular />
+          <Header.Content>Sign In</Header.Content>
+        </Header>
         <Form onSubmit = {this.submitForm.bind(this)}>
          <Form.Field>
            <label>Email</label>
@@ -74,10 +78,12 @@ class Login extends React.Component {
             onChange = {this.changeForm.bind(this)}
            />
          </Form.Field>
-         <Button type='submit'>Submit</Button>
+         <Button color="green" type='submit'>Submit</Button>
 
         </Form>
-        <Button onClick={this.signup.bind(this)}>Signup</Button>
+        <Segment textAlign='center' inverted color="blue" onClick={this.signup.bind(this)}>
+          Need An Account - Click Here to Sign Up!
+        </Segment>
       </Container>
     );
   }

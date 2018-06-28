@@ -21,7 +21,7 @@ class Main extends React.Component {
     <Container  textAlign="center" className = "main-container">
       <Icon color= "blue" size = "massive" name="folder outline"/>
       <Header  as='h1' textAlign='center' color="blue">
-        AuthO Test - React, Redux & React Router Template
+        Cognito Test App - React, Redux & React Router Template
         <Header.Subheader>A template to get started</Header.Subheader>
       </Header>
 

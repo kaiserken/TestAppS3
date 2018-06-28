@@ -9,18 +9,21 @@ import Signup from './components/Signup';
 import Amplify from 'aws-amplify';
 import authentication from './functions/authentication';
 
-const isAuthenticated = true;
 
-let AuthData;
-authentication.currentSession()
-  .then((data) =>{
-    console.log(data);
-    AuthData = data;
-  });
+
+var isAuthenticated = false;
+
+async function auth(){
+  var result  = await authentication.currentSession()
+    .then(data=>true)
+    .catch(err=> false);
+  console.log(result);
+  isAuthenticated = result;
+};
 
 
 const PrivateRoute = function({ component: Component, ...rest }){
-  console.log("authData", AuthData);
+  auth();
   return <Route
       {...rest}
       render={props =>
@@ -37,6 +40,8 @@ const PrivateRoute = function({ component: Component, ...rest }){
       }
     />;
 };
+
+
 
 export const makeMainRoutes = () => {
   return (

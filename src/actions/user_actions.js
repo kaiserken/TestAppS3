@@ -11,6 +11,14 @@ export function logOut(){
 
 }
 
+export function setUserEmail(email){
+  return {
+    type: Types.EMAIL,
+    payload: email
+  };
+
+}
+
 export function setIdToken(idToken){
   return {
     type: Types.ID_TOKEN,
@@ -29,7 +37,7 @@ export function setAccessToken(accessToken){
 
 export function setRefreshToken(refreshToken){
   return {
-    type: Types.ACCESS_TOKEN,
+    type: Types.REFRESH_TOKEN,
     payload: refreshToken
   };
 
@@ -37,16 +45,22 @@ export function setRefreshToken(refreshToken){
 
 export function logUserIn (email, password) {
   return function (dispatch) {
-    return authentication.signIn(email, password).then( result => {
-      console.log("result signIn", result);
-      // dispatch(setIdToken(idToken));
-      // dispatch(setAccessToken(accessToken));
+    return authentication.signIn(email, password)
+    .then( result => {
+      let session = result.signInUserSession;
+      console.log("session", session);
+      dispatch(setIdToken(session.idToken.jwtToken));
+      dispatch(setAccessToken(session.accessToken.jwtToken));
+      dispatch(setRefreshToken(session.refreshToken.token));
+      dispatch(setUserEmail(session.idToken.payload.email));
       return result;
     })
     .catch( err => {
       console.log('err in logUserIn', err);
       dispatch(setIdToken(""));
       dispatch(setAccessToken(""));
+      dispatch(setRefreshToken(""));
+      dispatch(setUserEmail(""));
       alert(`${err.message} Please double check your email and password. If the problem persists contact engineering`);
     });
   };
@@ -54,34 +68,71 @@ export function logUserIn (email, password) {
 
 export function signUserUp (email, password) {
   return function (dispatch) {
-    return authentication.signUp(email, password).then( result => {
-      console.log("result signIn", result);
-      // dispatch(setIdToken(idToken));
-      // dispatch(setAccessToken(accessToken));
+    return authentication.signUp(email, password)
+    .then( result => {
       return result;
     })
     .catch( err => {
-      console.log('err in logUserIn', err);
-      dispatch(setIdToken(""));
-      dispatch(setAccessToken(""));
-      alert(`${err.message} Please double check your email and password. If the problem persists contact engineering`);
+      alert(`${err.message}`);
+      throw(err);
     });
   };
 }
 
 export function confirmSignUp (email, code) {
   return function (dispatch) {
-    return authentication.confirmSignUp(email, code).then( result => {
-      console.log("result confirm", result);
-      // dispatch(setIdToken(idToken));
-      // dispatch(setAccessToken(accessToken));
-      return result;
+    return authentication.confirmSignUp(email, code)
+    .then( user => {
+      alert("You have succesfully signed Up - You can now sign in and use this app");
+      return user;
     })
     .catch( err => {
       console.log('err in Confirm', err);
+      alert(`${err.message} Please double check your confirmation code`);
+      throw(err);
+    });
+  };
+}
+
+export function signOut () {
+  return function (dispatch) {
+    return authentication.signOut()
+    .then( result => {
       dispatch(setIdToken(""));
       dispatch(setAccessToken(""));
-      alert(`${err.message} Please double check your email and password. If the problem persists contact engineering`);
+      dispatch(setRefreshToken(""));
+      dispatch(setUserEmail(""));
+      return result;
+    })
+    .catch( err => {
+      console.log('err in Signout', err);
+      dispatch(setIdToken(""));
+      dispatch(setAccessToken(""));
+      dispatch(setRefreshToken(""));
+      dispatch(setUserEmail(""));
+      throw err;
+    });
+  };
+}
+
+export function setUser() {
+  return function (dispatch) {
+    return authentication.currentSession()
+    .then( user => {
+      console.log(user);
+      dispatch(setIdToken(user.idToken.jwtToken));
+      dispatch(setAccessToken(user.accessToken.jwtToken));
+      dispatch(setRefreshToken(user.refreshToken.token));
+      dispatch(setUserEmail(user.idToken.payload.email));
+      return user;
+    })
+    .catch( err => {
+      console.log('no current user', err);
+      dispatch(setIdToken(""));
+      dispatch(setAccessToken(""));
+      dispatch(setRefreshToken(""));
+      dispatch(setUserEmail(""));
+
     });
   };
 }

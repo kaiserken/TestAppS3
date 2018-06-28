@@ -11,12 +11,14 @@ const VENDOR = [
   "axios",
   "moment",
   "aws-amplify",
-  "aws-amplify-react"
+  "aws-amplify-react",
+  "babel-polyfill"
 ];
 
 module.exports = {
   mode:"production",
   entry: {
+    polyfill: 'babel-polyfill',
     ["TestAppS3"]: './src/index.js',
     vendor: VENDOR
   },

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Redirect } from 'react-router-dom';
 import { signUserUp, confirmSignUp } from '../actions/user_actions';
-import { Container, Button, Checkbox, Form } from 'semantic-ui-react';
+import { Container, Button, Checkbox, Form, Header, Icon, Segment } from 'semantic-ui-react';
 
 
 // Renders Login screen when not logged in
@@ -16,7 +16,6 @@ class Signup extends React.Component {
       password:    "",
       confirmationCode: "",
       needConfirmation: false,
-      redirectToReferrer: false,
     };
   }
 
@@ -24,13 +23,13 @@ class Signup extends React.Component {
     e.preventDefault();
     this.props.confirmSignUp(this.state.email, this.state.confirmationCode)
     .then(response => {
-      this.setState({ redirectToReferrer: true });
+      this.setState({
+        needConfirmation: false,
+      });
+      this.props.history.push("/login");
     })
     .catch(error => {
       console.error(error);
-      if (error){
-        alert(`Error Code ${error.status}: ${error.data.message}`);
-      }
     });
   }
 
@@ -39,12 +38,13 @@ class Signup extends React.Component {
     e.preventDefault();
     this.props.signUserUp(this.state.email, this.state.password)
     .then(response => {
+      console.log("response", response);
       this.setState({needConfirmation: true});
     })
     .catch(error => {
       console.error(error);
       if (error){
-        alert(`Error Code ${error.status}: ${error.data.message}`);
+        this.setState({needConfirmation: false});
       }
     });
   }
@@ -58,15 +58,17 @@ class Signup extends React.Component {
 
 
   render(){
-    const { from } = this.props.location.state || { from: { pathname: "/" } };
-
-    if (this.state.redirectToReferrer) {
-      return <Redirect to={from} />;
-    }
 
     if (this.state.needConfirmation){
       return (
         <Container className="login-container">
+          <Header as='h2' icon textAlign='center'>
+            <Icon color="blue" name='user' circular />
+            <Header.Content>Create Your Account</Header.Content>
+          </Header>
+          <Segment textAlign='center' inverted color="blue" >
+            Enter the confirmation code that was just sent to {this.state.email} to complete the process!
+          </Segment>
           <Form onSubmit = {this.submitConfirmation.bind(this)}>
            <Form.Field>
              <label>Confirmation Code</label>
@@ -85,6 +87,10 @@ class Signup extends React.Component {
 
     return (
       <Container className="login-container">
+        <Header as='h2' icon textAlign='center'>
+          <Icon color="blue" name='user' circular />
+          <Header.Content>Create Your Account</Header.Content>
+        </Header>
         <Form onSubmit = {this.submitForm.bind(this)}>
          <Form.Field>
            <label>Email</label>

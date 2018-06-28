@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Menu, Responsive, Header, Icon, Dropdown, Container, Segment } from 'semantic-ui-react';
-
+import authentication from '../functions/authentication';
+import { signOut, setUser } from '../actions/user_actions';
 
 
 
@@ -14,7 +15,7 @@ class App extends Component {
   }
 
   componentDidMount(){
-
+    this.props.setUser();
   }
 
   login() {
@@ -22,10 +23,17 @@ class App extends Component {
   }
 
   logout() {
+    this.props.signOut()
+    .then(()=>{
+      this.props.history.push("/home");
+    })
+    .catch((err)=>{
+      console.log(err);
+    });
 
   }
   logInOutMenu(){
-    const isAuthenticated = false;
+    const isAuthenticated = this.props.user.email;
     //some sort of user logged in logic
     if (isAuthenticated){
       return (
@@ -60,7 +68,7 @@ class App extends Component {
       <Responsive as={Segment} minWidth={820}>
         <Menu className="fixed top appHeader-menu" borderless>
           <Menu.Item className = "appheader-image" as={NavLink} exact to="/home">
-            AuthO Test
+            Cognito Test
           </Menu.Item>
 
           <Menu.Item as={NavLink} exact to="/menuone">
@@ -126,7 +134,7 @@ function mapStateToProps(state){
 }
 
 function  mapDispatchToProps  (dispatch)  {
-  return bindActionCreators({ }, dispatch);
+  return bindActionCreators({ signOut, setUser }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
