@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import {logUserIn} from '../actions/user_actions';
 import { Container, Button, Checkbox, Form, Segment, Header, Icon } from 'semantic-ui-react';
 
@@ -110,4 +110,4 @@ function  mapDispatchToProps  (dispatch)  {
   return bindActionCreators({ logUserIn }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

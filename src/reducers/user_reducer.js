@@ -8,6 +8,7 @@ export default function (state = {}, action) {
     case Types.ACCESS_TOKEN:          return {...state, accessToken: action.payload}
     case Types.REFRESH_TOKEN:         return {...state, refreshToken: action.payload}
     case Types.EMAIL:                 return {...state, email: action.payload}
+    case Types.LOGGED_IN:             return {...state, loggedIn: action.payload}
     }
   return state;
 }

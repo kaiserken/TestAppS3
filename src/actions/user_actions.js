@@ -11,6 +11,13 @@ export function logOut(){
 
 }
 
+export function setLoggedIn(value){
+  return {
+    type: Types.LOGGED_IN,
+    payload: value
+  };
+}
+
 export function setUserEmail(email){
   return {
     type: Types.EMAIL,
@@ -46,19 +53,21 @@ export function setRefreshToken(refreshToken){
 export function logUserIn (email, password) {
   return function (dispatch) {
     return authentication.signIn(email, password)
-    .then( result => {
-      let session = result.signInUserSession;
+    .then( user => {
+      let session = user.signInUserSession;
       dispatch(setIdToken(session.idToken.jwtToken));
       dispatch(setAccessToken(session.accessToken.jwtToken));
       dispatch(setRefreshToken(session.refreshToken.token));
       dispatch(setUserEmail(session.idToken.payload.email));
-      return result;
+      dispatch(setLoggedIn(true));
+      return user;
     })
     .catch( err => {
       dispatch(setIdToken(""));
       dispatch(setAccessToken(""));
       dispatch(setRefreshToken(""));
       dispatch(setUserEmail(""));
+      dispatch(setLoggedIn(false));
       throw(err);
     });
   };
@@ -98,6 +107,7 @@ export function signOut () {
       dispatch(setAccessToken(""));
       dispatch(setRefreshToken(""));
       dispatch(setUserEmail(""));
+      dispatch(setLoggedIn(false));
       return result;
     })
     .catch( err => {
@@ -106,6 +116,7 @@ export function signOut () {
       dispatch(setAccessToken(""));
       dispatch(setRefreshToken(""));
       dispatch(setUserEmail(""));
+      dispatch(setLoggedIn(false));
       throw err;
     });
   };
@@ -115,11 +126,11 @@ export function setUser() {
   return function (dispatch) {
     return authentication.currentSession()
     .then( user => {
-      console.log(user);
       dispatch(setIdToken(user.idToken.jwtToken));
       dispatch(setAccessToken(user.accessToken.jwtToken));
       dispatch(setRefreshToken(user.refreshToken.token));
       dispatch(setUserEmail(user.idToken.payload.email));
+      dispatch(setLoggedIn(true));
       return user;
     })
     .catch( err => {
@@ -128,6 +139,7 @@ export function setUser() {
       dispatch(setAccessToken(""));
       dispatch(setRefreshToken(""));
       dispatch(setUserEmail(""));
+      dispatch(setLoggedIn(false));
 
     });
   };

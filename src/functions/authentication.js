@@ -3,12 +3,8 @@ import Amplify from 'aws-amplify';
 Amplify.configure({
     Auth: {
       region: 'us-east-2',
-
       userPoolId: 'us-east-2_G5UTw92eS',
-
       userPoolWebClientId: 't5l3pivnb992ngp5hem4qsogo',
-
-      //oauth: oauth
     },
 
 });
@@ -34,7 +30,20 @@ export default {
     let user = new Promise (function(resolve, reject){
       Amplify.Auth.signIn(username, password)
       .then((user) => {
-        resolve(user);
+        console.log( "User", user);
+        if (user.challengeName === 'NEW_PASSWORD_REQUIRED'){
+          let requiredAttributes= {"requiredAttributes": user.requiredAttributes};
+          Amplify.Auth.completeNewPassword(user, password, requiredAttributes)
+          .then((data)=>{
+            console.log(data);
+            resolve(data);
+          });
+        } else {
+            console.log(user);
+            resolve(user);
+        }
+        //console.log("User sign in", user);
+
       })
       .catch((err) => {
         reject(err);
@@ -69,16 +78,15 @@ export default {
     return user;
   },
 
-  currentSession: function(){
-    let session = new Promise (function(resolve, reject){
-      Amplify.Auth.currentSession()
+  currentSession: async function(){
+    let session = await Amplify.Auth.currentSession()
       .then((data) => {
-        resolve(data);
+        return data;
       })
       .catch((err) => {
-        reject(err);
+        throw err;
       });
-    });
+
 
     return session;
 

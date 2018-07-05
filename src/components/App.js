@@ -12,11 +12,9 @@ import { signOut, setUser } from '../actions/user_actions';
 class App extends Component {
   constructor(props) {
     super(props);
+
   }
 
-  componentDidMount(){
-    this.props.setUser();
-  }
 
   login() {
     this.props.history.push("/login");
@@ -33,7 +31,7 @@ class App extends Component {
 
   }
   logInOutMenu(){
-    const isAuthenticated = this.props.user.email;
+    const isAuthenticated = this.props.user.loggedIn;
     //some sort of user logged in logic
     if (isAuthenticated){
       return (
